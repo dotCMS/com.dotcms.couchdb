@@ -1,0 +1,65 @@
+---
+name: "couchdb"
+description: "This app connects your dotCMS instance with a CouchDB instance and can push and delete content to a remote CouchDB database. You configure the connection to couchdb below.  There are extra (optional) parameters that can be configured as well - `couchdb.http.socket.timeout`, `couchdb.http.connection.timeout`, `couchdb.max.connections`, `couchdb.proxy.host`, `couchdb.proxy.port` and `couchdb.path`. For more information on these parameters, see the [LightCouch documentation](https://github.com/lightcouch/lightcouch/)."
+iconUrl: "https://static.dotcms.com/assets/icons/apps/couch-db-logo.png"
+allowExtraParameters: true
+params:
+  name:
+    label: "CouchDB Database Name"
+    value: ""
+    hidden: false
+    type: "STRING"
+    hint: "CouchDB Database Name"
+    required: true
+  createDbIfNotExists:
+    label: "Create Database if it doesn't exist"
+    value: true
+    hidden: false
+    type: "BOOL"
+    hint: "Create Database if it doesn't exist"
+    required: true
+  protocol:
+    label: "Protocol"
+    hidden: false
+    type: "SELECT"
+    hint: "Http or Https"
+    required: true
+    value:
+      -
+        label: "https"
+        value: "https"
+        selected: true
+      -
+        label: "http"
+        value: "http"
+  host:
+    label: "Host"
+    value: "127.0.0.1"
+    hidden: false
+    type: "STRING"
+    hint: "CouchDB Host"
+    required: true
+  port:
+    label: "Port"
+    value: "5984"
+    hidden: false
+    type: "STRING"
+    hint: "CouchDB Port e.g: 5984 | 6984"
+    required: true  
+  username:
+    label: "Username"
+    value: ""
+    hidden: false
+    type: "STRING"
+    hint: "CouchDB Username"
+    required: false 
+  password:
+    label: "Password"
+    value: ""
+    hidden: true
+    type: "STRING"
+    hint: "CouchDB Password"
+    required: false 
+    
+
+    
