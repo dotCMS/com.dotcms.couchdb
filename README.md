@@ -1,8 +1,10 @@
+<img src="https://static.dotcms.com/assets/icons/apps/couch-db-logo.png" width="150">
+
+
 # dotCMS + CouchDB 
 
-Connect dotCMS with [CouchDB](https://couchdb.apache.org/) to allow for content to be pushed and deleted as content is published.  This plugin adds an App which can be configured to connect to a couchdb instance and publish content to it.  It uses the lightcouch java client - more information about that driver can be found here: https://github.com/lightcouch/LightCouch
 
----
+Connect dotCMS with [CouchDB](https://couchdb.apache.org/) to allow for content to be pushed and deleted as content is published.  This plugin adds an App which can be configured to connect to a couchdb instance and publish content to it.  It uses the lightcouch java client - more information about that driver can be found here: https://github.com/lightcouch/LightCouch
 
 
 ## App Config
@@ -52,3 +54,7 @@ To skip tests, run
 
 **Note:**
 The plugin works on 25.05+.
+
+<img src="https://www2.dotcms.com/dA/99fe3769-d649/256w/dotcms.png" title="dotcms - Universal content management system " width="150">
+
+
