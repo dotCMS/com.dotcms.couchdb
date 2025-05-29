@@ -46,5 +46,9 @@ public class ContentModel implements Serializable{
         return WorkflowHelper.getInstance().contentletToMap(contentlet);
     }
 
+    public String getId(){
+        return this._id;
+
+    }
 
 }

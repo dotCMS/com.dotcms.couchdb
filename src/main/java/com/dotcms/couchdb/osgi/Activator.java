@@ -1,16 +1,15 @@
 package com.dotcms.couchdb.osgi;
 
-import com.dotcms.ai.listener.AIAppListener;
 import com.dotcms.security.apps.AppSecretSavedEvent;
 import com.dotcms.system.event.local.business.LocalSystemEventsAPI;
 import com.dotmarketing.filters.InterceptorFilter;
 
 import org.osgi.framework.BundleContext;
 
-import com.dotcms.couchdb.pushpublish.receiver.event.CouchDBContentListener;
+import com.dotcms.couchdb.listener.CouchDBContentListener;
 import com.dotcms.couchdb.rest.CouchDBInterceptor;
 import com.dotcms.couchdb.util.AppUtil;
-import com.dotcms.couchdb.util.CouchDBAppListener;
+import com.dotcms.couchdb.listener.CouchDBAppListener;
 import com.dotcms.couchdb.workflow.CouchDBActionlet;
 import com.dotcms.filters.interceptor.FilterWebInterceptorProvider;
 import com.dotcms.filters.interceptor.WebInterceptor;

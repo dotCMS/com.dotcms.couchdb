@@ -1,9 +1,10 @@
-package com.dotcms.couchdb.util;
+package com.dotcms.couchdb.listener;
 
 
 
 import com.dotcms.ai.validator.AIAppValidator;
 import com.dotcms.couchdb.api.CouchDbAPI;
+import com.dotcms.couchdb.util.AppUtil;
 import com.dotcms.security.apps.AppSecretSavedEvent;
 import com.dotcms.system.event.local.model.EventSubscriber;
 import com.dotcms.system.event.local.model.KeyFilterable;

@@ -104,18 +104,7 @@ public class CouchDBActionlet extends WorkFlowActionlet {
             api.removeContentlet(contentlet);
             return;
         }
-
-
-        // publish if live
-        if(Try.of(()->contentlet.isLive()).getOrElse(false)) {
-            api.pushContentlet(contentlet);
-            return;
-        }
-
-        // remove if not live
-        if(!Try.of(()->contentlet.hasLiveVersion()).getOrElse(false)) {
-            api.removeContentlet(contentlet);
-        }
+        api.syncContentlet(contentlet);
 
 
 

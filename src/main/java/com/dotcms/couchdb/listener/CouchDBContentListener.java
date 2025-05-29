@@ -1,15 +1,22 @@
-package com.dotcms.couchdb.pushpublish.receiver.event;
+package com.dotcms.couchdb.listener;
 
 
 
+import com.dotcms.concurrent.Debouncer;
 import com.dotcms.content.elasticsearch.business.event.ContentletArchiveEvent;
 import com.dotcms.content.elasticsearch.business.event.ContentletDeletedEvent;
 import com.dotcms.content.elasticsearch.business.event.ContentletPublishEvent;
+import com.dotcms.couchdb.api.ContentModel;
+import com.dotcms.couchdb.api.CouchDbAPI;
 import com.dotcms.system.event.local.model.Subscriber;
 
+import com.dotmarketing.beans.Host;
+import com.dotmarketing.business.APILocator;
 import com.dotmarketing.portlets.contentlet.model.Contentlet;
 import com.dotmarketing.portlets.contentlet.model.ContentletListener;
 import com.dotmarketing.util.Logger;
+import io.vavr.control.Try;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -18,6 +25,7 @@ import com.dotmarketing.util.Logger;
  */
 public class CouchDBContentListener implements ContentletListener<Contentlet> {
 
+    private static Debouncer debouncer = new Debouncer();
 
     @Override
     public String getId() {
@@ -36,12 +44,37 @@ public class CouchDBContentListener implements ContentletListener<Contentlet> {
 
     @Subscriber
     public void onPublish(final ContentletPublishEvent<Contentlet> contentletPublishEvent) {
+
+
         final Contentlet contentlet = contentletPublishEvent.getContentlet();
-        if (contentletPublishEvent.isPublish()) {
-            Logger.info(this.getClass(), "onPublish - PublishEvent:true " + contentlet.getTitle());
-        } else {
-            Logger.info(this.getClass(), "onPublish - PublishEvent:false " + contentlet.getTitle());
+
+        final Host host = Try.of(() -> APILocator.getHostAPI()
+                        .find(contentlet.getHost(), APILocator.systemUser(), false))
+                .getOrNull();
+
+
+
+        if (host == null) {
+            Logger.warn(this.getClass().getName(),"Contentlet Host is Null");
+            return;
         }
+        final CouchDbAPI api = CouchDbAPI.api(host);
+
+        if(!api.syncContentTypeListener(contentlet.getContentType().variable())){
+            return;
+        }
+
+
+        Logger.info(this.getClass(), "PublishEvent:"+contentletPublishEvent.isPublish()+", title:" + contentlet.getTitle());
+
+        ContentModel cm = new ContentModel(contentlet);
+
+        debouncer.debounce(
+                    cm.getId(), ()->
+                        api.syncContentlet(contentlet)
+                   , 3, TimeUnit.SECONDS);
+
+
     }
 
     @Subscriber

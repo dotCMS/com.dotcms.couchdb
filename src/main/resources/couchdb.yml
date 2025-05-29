@@ -59,7 +59,11 @@ params:
     hidden: true
     type: "STRING"
     hint: "CouchDB Password"
-    required: false 
-    
-
-    
+    required: false
+  listenerEnabled:
+    label: Enable Content Listener for Content Types
+    value: ""
+    hidden: false
+    type: "STRING"
+    hint: "Comma separated list of content types to sync to couchdb, publishing and removing couchdb documents as content is published and unpublished in dotcms."
+    required: false
