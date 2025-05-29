@@ -1,5 +1,7 @@
 package com.dotcms.couchdb.osgi;
 
+import com.dotcms.ai.listener.AIAppListener;
+import com.dotcms.security.apps.AppSecretSavedEvent;
 import com.dotcms.system.event.local.business.LocalSystemEventsAPI;
 import com.dotmarketing.filters.InterceptorFilter;
 
@@ -23,7 +25,7 @@ public class Activator extends GenericBundleActivator {
 
     private final WebInterceptor[] webInterceptors = {new CouchDBInterceptor()};
 
-    private final CouchDBAppListener couchDBAppListener = CouchDBAppListener.Instance.get();
+    private final CouchDBAppListener couchDBAppListener = new CouchDBAppListener();
     private final CouchDBContentListener couchDBContentListener = new CouchDBContentListener();
     final WebInterceptorDelegate delegate =
                     FilterWebInterceptorProvider.getInstance(Config.CONTEXT).getDelegate(
@@ -48,7 +50,7 @@ public class Activator extends GenericBundleActivator {
 
         //Register Receiver PP listener events.
         localSystemEventsAPI.subscribe(couchDBContentListener);
-        localSystemEventsAPI.subscribe(couchDBAppListener);
+        localSystemEventsAPI.subscribe(AppSecretSavedEvent.class, couchDBAppListener);
 
     }
 

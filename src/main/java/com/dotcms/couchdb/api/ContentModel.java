@@ -9,7 +9,7 @@ import com.dotmarketing.portlets.contentlet.model.Contentlet;
 import com.dotmarketing.portlets.contentlet.transform.DotTransformerBuilder;
 
 public class ContentModel implements Serializable{
-    final String id;
+    final String id,_id;
     final String title;
     final String contentType;
     final String inode;
@@ -19,6 +19,7 @@ public class ContentModel implements Serializable{
 
     public ContentModel(String id, String title, String contentType, String inode, Date modDate, String modUser, Map<String, Object> contentMap) {
         this.id = id;
+        this._id=id;
         this.title = title;
         this.contentType = contentType;
         this.inode = inode;
@@ -28,7 +29,8 @@ public class ContentModel implements Serializable{
     }
 
     public ContentModel(Contentlet contentlet) {
-        this.id = contentlet.getIdentifier();
+        this.id = contentlet.getIdentifier() + "_" + contentlet.getLanguageId() + "_" + contentlet.getVariantId();
+        this._id=this.id;
         this.title = contentlet.getTitle();
         this.contentType = contentlet.getContentType().variable();
         this.inode = contentlet.getInode();

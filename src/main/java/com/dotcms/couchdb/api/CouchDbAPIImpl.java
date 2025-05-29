@@ -1,14 +1,13 @@
 package com.dotcms.couchdb.api;
 
-import java.io.IOException;
-import java.util.Map;
+import com.google.gson.JsonObject;
+import io.vavr.control.Try;
 
+import java.util.Optional;
 import org.lightcouch.CouchDbClient;
 
-import com.dotcms.workflow.helper.WorkflowHelper;
 import com.dotmarketing.beans.Host;
 import com.dotmarketing.portlets.contentlet.model.Contentlet;
-import com.dotmarketing.portlets.contentlet.transform.DotTransformerBuilder;
 import com.dotmarketing.util.Logger;
 
 public class CouchDbAPIImpl implements CouchDbAPI {
@@ -33,15 +32,14 @@ public class CouchDbAPIImpl implements CouchDbAPI {
             Logger.error(this.getClass().getName(), "CouchDB is not configured for host: " + host.getIdentifier());
             return;
         }
-        try(final CouchDbClient client = CouchDB.instance(host).get()){
+        CouchDbClient client = CouchDB.instance(host).get();
 
             ContentModel contentModel = new ContentModel(contentlet);
 
             Logger.info(this.getClass().getName(), "Pushing contentlet to CouchDB: " + contentModel.id);
             client.save(contentModel);
-        } catch (IOException e) {
-            Logger.error(this.getClass().getName(), "Error pushing contentlet to CouchDB", e);
-        }
+            Logger.info(this.getClass().getName(), "Pushed contentlet to CouchDB: " + contentModel.title);
+
 
     }
     @Override
@@ -50,12 +48,20 @@ public class CouchDbAPIImpl implements CouchDbAPI {
             Logger.error(this.getClass().getName(), "CouchDB is not configured for host: " + host.getIdentifier());
             return;
         }
-        try(final CouchDbClient client = CouchDB.instance(host).get()){
-            ContentModel contentModel = new ContentModel(contentlet);
-            client.remove(contentModel.id);
-        } catch (IOException e) {
-            Logger.error(this.getClass().getName(), "Error removing contentlet from CouchDB", e);
+        CouchDbClient client = CouchDB.instance(host).get();
+
+
+        ContentModel contentModel = new ContentModel(contentlet);
+        Optional<JsonObject> object = Try.of(()->client.find(JsonObject.class, contentModel._id)).toJavaOptional();
+
+        if(object.isEmpty()){
+            Logger.info(this.getClass(),"Could not find document for id:" + contentModel._id + ", title:" + contentModel.title);
+            return;
         }
+        client.remove(object.get());
+        Logger.info(this.getClass().getName(), "Removed contentlet to CouchDB: " + contentModel.title);
+
+
     }
 
 

@@ -17,13 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Objects;
 
 
-/**
- * This class listens to events related to the AI application and performs actions based on those events.
- * It implements the EventSubscriber interface and overrides its methods to provide custom functionality.
- * The class also implements the KeyFilterable interface to filter events based on a specific key.
- *
- * @author vico
- */
+
 
 public final class CouchDBAppListener implements EventSubscriber<AppSecretSavedEvent>, KeyFilterable {
 
@@ -75,16 +69,6 @@ public final class CouchDBAppListener implements EventSubscriber<AppSecretSavedE
         return AppUtil.COUCHDB_APP_KEY;
     }
 
-    public enum Instance {
-        SINGLETON;
 
-        private final CouchDBAppListener provider = new CouchDBAppListener();
-
-        public static CouchDBAppListener get() {
-            return CouchDBAppListener.Instance.SINGLETON.provider;
-        }
-    }
 
 }
-
-
