@@ -35,10 +35,19 @@ couchdb.proxy.host: defaults to none
 couchdb.proxy.port: defaults to none
 couchdb.path: path to append to DB URI, not generally needed
 ```
+## Content Listner
+Admins can specify which content they would like to sync with CouchDB in the App.  This is just a comma separated list of content types.
+
 
 ## Workflow Actionlet
 
-Users will be able to add an actionlet to their workflow to Publish or Unpublish content to the configured couchdb instance.
+The plugin also provides an actionlet to their workflow to Publish or Unpublish content to the configured couchdb instance.  If the user selects to "Sync" content, then content will be pushed into CouchDB if it is published and removed from CouchDB if there are no published versions.
+
+## Running CouchDB Locally for testing
+
+```
+docker run -d --name my-couchdb -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password  -p 5984:5984 --rm couchdb:latest
+```
 
 
 ## Building
@@ -57,8 +66,5 @@ To skip tests, run
 
 
 **Note:**
-The plugin works on 25.05+.
-
-<img src="https://www2.dotcms.com/dA/99fe3769-d649/256w/dotcms.png" title="dotcms - Universal content management system " width="150">
-
+This plugin is provided by dotCMS as an example only and is not warrentied or supported in any way.   
 
