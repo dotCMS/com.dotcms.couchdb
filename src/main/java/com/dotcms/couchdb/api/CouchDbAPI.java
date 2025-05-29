@@ -19,5 +19,9 @@ public interface CouchDbAPI {
         CouchDB.shutdown();
     }
 
+    default void reload() {
+        CouchDB.reload();
+    }
+
    
 }

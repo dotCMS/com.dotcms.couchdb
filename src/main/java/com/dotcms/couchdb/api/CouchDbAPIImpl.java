@@ -29,27 +29,30 @@ public class CouchDbAPIImpl implements CouchDbAPI {
     @Override
     public void pushContentlet(Contentlet contentlet) {
 
-        try(final CouchDbClient client = CouchDB.instance(host)){
+        if(CouchDB.instance(host).isEmpty()){
+            Logger.error(this.getClass().getName(), "CouchDB is not configured for host: " + host.getIdentifier());
+            return;
+        }
+        try(final CouchDbClient client = CouchDB.instance(host).get()){
 
+            ContentModel contentModel = new ContentModel(contentlet);
 
-            final String variant = contentlet.getVariantId();
-            contentlet = new DotTransformerBuilder().contentResourceOptions(false).content(contentlet).build().hydrate().get(0);
-            contentlet.setVariantId(variant);
-            
-            Map<String, Object> contentletMap = WorkflowHelper.getInstance().contentletToMap(contentlet);
-
-            Logger.info(this.getClass().getName(), "Pushing contentlet to CouchDB: " + contentletMap.get("identifier"));
-            client.save(contentletMap);
+            Logger.info(this.getClass().getName(), "Pushing contentlet to CouchDB: " + contentModel.id);
+            client.save(contentModel);
         } catch (IOException e) {
             Logger.error(this.getClass().getName(), "Error pushing contentlet to CouchDB", e);
         }
 
-
     }
     @Override
     public void removeContentlet(Contentlet contentlet) {
-        try(final CouchDbClient client = CouchDB.instance(host)){
-            client.remove(contentlet.getMap());
+        if(CouchDB.instance(host).isEmpty()){
+            Logger.error(this.getClass().getName(), "CouchDB is not configured for host: " + host.getIdentifier());
+            return;
+        }
+        try(final CouchDbClient client = CouchDB.instance(host).get()){
+            ContentModel contentModel = new ContentModel(contentlet);
+            client.remove(contentModel.id);
         } catch (IOException e) {
             Logger.error(this.getClass().getName(), "Error removing contentlet from CouchDB", e);
         }

@@ -33,6 +33,7 @@
             <groupId>org.lightcouch</groupId>
             <artifactId>lightcouch</artifactId>
             <version>0.2.0</version>
+
           </dependency>
         <dependency>
             <groupId>org.junit</groupId>
@@ -59,11 +60,6 @@
             <version>5.17.0</version>
             <scope>test</scope>
         </dependency>
-
-
-
-
-
         <!-- Add more dependencies as needed -->
     </dependencies>
 
@@ -80,13 +76,34 @@
                         <Bundle-Vendor>dotCMS</Bundle-Vendor>
                         <Bundle-Description>dotCMS - CouchDB</Bundle-Description>
                         <Bundle-DocURL>https://dotcms.com/</Bundle-DocURL>
-                        <Bundle-Activator>com.dotcms.couchdb.osgi.Activator</Bundle-Activator> <!-- Update as per your Activator's package -->
+                        <Bundle-Activator>com.dotcms.couchdb.osgi.Activator</Bundle-Activator>
+                        <Bundle-ClassPath>.,lib/lightcouch-0.2.0.jar,{maven-dependencies}</Bundle-ClassPath>
                         <Import-Package>*</Import-Package>
-                        <Export-Package>com.dotcms.couchdb</Export-Package>
+                        <Export-Package>org.lightcouch,com.dotcms.couchdb</Export-Package>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                        <Embed-Directory>lib</Embed-Directory>
+                        <Embed-StripGroup>true</Embed-StripGroup>
+                        <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
 
+                </executions>
+            </plugin>
             <!-- Add AspectJ Maven plugin configuration if needed -->
         </plugins>
     </build>

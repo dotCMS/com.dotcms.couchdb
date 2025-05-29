@@ -1,6 +1,8 @@
 package com.dotcms.couchdb.workflow;
 
 
+import com.dotcms.couchdb.api.CouchDbAPI;
+import com.dotcms.couchdb.api.CouchDbAPIImpl;
 import com.dotmarketing.beans.Host;
 import com.dotmarketing.business.APILocator;
 import com.dotmarketing.portlets.contentlet.model.Contentlet;
@@ -70,6 +72,8 @@ public class CouchDBActionlet extends WorkFlowActionlet {
             return;
         }
 
+        CouchDbAPI api = new CouchDbAPIImpl(host);
+        api.pushContentlet(contentlet);
 
         
 
