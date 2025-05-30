@@ -23,9 +23,10 @@ These include the required values:
   - port: e.g. 5984
   - username: CouchDB username
   - password: CouchDB user password
+  - Content Listener: specify which content types to automatically sync with CouchDB when new content is published.  This works without having to set up the workflow action. The value of this field is just a comma separated list of content types.
     
 
-And the Optional/Advanced properties which can be entered as key/value pairs in the app.
+Little used Optional/Advanced properties which can be entered as key/value pairs in the app.
 
 ```
 couchdb.http.socket.timeout: in millis, defaults to 0 (no timeout). 
@@ -35,16 +36,13 @@ couchdb.proxy.host: defaults to none
 couchdb.proxy.port: defaults to none
 couchdb.path: path to append to DB URI, not generally needed
 ```
-## Content Listner
-Admins can specify which content they would like to sync with CouchDB in the App.  This is just a comma separated list of content types.
-
 
 ## Workflow Actionlet
 
 The plugin also provides an actionlet to their workflow to Publish or Unpublish content to the configured couchdb instance.  If the user selects to "Sync" content, then content will be pushed into CouchDB if it is published and removed from CouchDB if there are no published versions.
 
 ## Running CouchDB Locally for testing
-
+To test the plugin, you can run couchdb locally using docker.
 ```
 docker run -d --name my-couchdb -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password  -p 5984:5984 --rm couchdb:latest
 ```
