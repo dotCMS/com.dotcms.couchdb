@@ -16,14 +16,14 @@ Connect dotCMS with [CouchDB](https://couchdb.apache.org/) to allow for content 
 Navigate to the CouchDB app and fill in the appropiate values. 
 
 These include the required values:
-  - name: the db name to store the content
-  - createDbIfNotExists: true|false
-  - protocol: http|https
-  - host, e.g.  "127.0.0.1"
-  - port: e.g. 5984
-  - username: CouchDB username
-  - password: CouchDB user password
-  - Content Listener: specify which content types to automatically sync with CouchDB when new content is published.  This works without having to set up the workflow action. The value of this field is just a comma separated list of content types.
+  - **name**: the db name to store the content
+  - **createDbIfNotExists**: true|false
+  - **protocol**: http|https
+  - **host**:  127.0.0.1
+  - **port**: 5984
+  - **username**: CouchDB username
+  - **password**: CouchDB user password
+  - **Content Listener**: specify which content types to automatically sync with CouchDB when new content is published.  This works without having to set up the workflow action. The value of this field is just a comma separated list of content types.
     
 
 Little used Optional/Advanced properties which can be entered as key/value pairs in the app.
